@@ -1,0 +1,35 @@
+kind: LTMConfig
+apiVersion: v1
+metadata:
+  name: example-ltm
+  lac: LAC12345
+  partition: comon
+  description: Example configuration for LTM with virtual servers, pools, and nodes
+spec:
+  virtual_servers:
+    - name: vs_web_80
+      destination: 192.168.1.100
+      port: 80
+      pool: web_pool
+  pools:
+    - name: web_pool
+      monitor: http
+      pool_members:
+        - node1
+        - node2
+  monitors:
+    - name: http
+      type: HTTP
+      interval: 30
+      timeout: 90
+      send: "GET / HTTP/1.1\r\nHost: example.com\r\n\r\n"
+      receive: "HTTP/1.1 200 OK"
+  profiles:
+    - name: http_profile
+      type: HTTP
+      description: HTTP profile for web traffic    
+  nodes:
+    - name: node1
+      address: 10.0.0.10
+    - name: node2
+      address: 10.0.0.11
