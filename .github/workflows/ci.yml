@@ -35,4 +35,4 @@ jobs:
           git checkout -b output_data
           git add .
           git commit -m "feat: Automatic generated data" || echo "Nada para commitar"
-          git push
+          git push --set-upstream origin output_data
