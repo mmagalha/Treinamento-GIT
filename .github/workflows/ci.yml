@@ -30,4 +30,4 @@ jobs:
 
       # Runs a single command using the runners shell on folder scripts inside the repository 
       - name: create confs
-        run: python3 ltm_config.yml
+        run: python3 generate_shell_script.py
