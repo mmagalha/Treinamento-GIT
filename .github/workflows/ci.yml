@@ -19,10 +19,6 @@ jobs:
   build-confs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: script
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -30,4 +26,4 @@ jobs:
 
       # Runs a single command using the runners shell on folder scripts inside the repository 
       - name: create confs
-        run: python3 generate_shell_script.py
+        run: python3 script/generate_shell_script.py
