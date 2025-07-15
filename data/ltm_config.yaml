@@ -1,7 +1,7 @@
 kind: LTMConfig
 apiVersion: v1
 metadata:
-  name: example-ltm
+  name: example-ltm-mario
   lac: LAC12345
   partition: comon
   description: Example configuration for LTM with virtual servers, pools, and nodes
