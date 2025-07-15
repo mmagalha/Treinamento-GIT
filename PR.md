@@ -67,8 +67,3 @@ gh pr create --base main --head minha-nova-feature --title "Minha nova feature" 
 ```
 
 ---
-
-## 🎥 Quer um exemplo visual ou simulação interativa?
-
-Posso te gerar um passo a passo ilustrado ou até uma simulação com imagens. Deseja isso?
-
