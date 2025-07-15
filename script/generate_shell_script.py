@@ -195,7 +195,6 @@ def generate_shell_commands(config):
 def main():
     """Função principal"""
     config_file = "data/ltm_config.yaml"
-    output_file = f"{output}/configure_f5_ltm.sh"
     
     # Verificar se o arquivo de configuração existe
     if not os.path.exists(config_file):
@@ -205,10 +204,19 @@ def main():
     # Carregar configuração
     try:
         config = load_config(config_file)
+        metadata = config.get('metadata', {})
+        partition = metadata.get('partition', 'Common')
+        config_name = metadata.get('name', 'default-config')
+        lac = metadata.get('lac', '')
+        output = f"{lac}-{config_name}-{partition}"
+        output_file = f"{output}/configure_f5_ltm.sh"
+        output_readme = f"{output}/README.md"
     except Exception as e:
         print(f"Erro ao carregar configuração: {e}")
-        return
-    
+        return    
+    # Variáveis de metadados
+
+
     # Gerar comandos
     commands = generate_shell_commands(config)
     
@@ -216,7 +224,7 @@ def main():
     if os.path.exists(output):
         print(f"Erro: Configuração {output} já existe")
         return
-    else
+    else: 
         os.makedirs(output, exist_ok=True)
     
     # Escrever script shell
@@ -227,15 +235,34 @@ def main():
         # Tornar o script executável
         os.chmod(output_file, 0o755)
         
-        print(f"Script shell gerado com sucesso: {output_file}")
-        print(f"Para executar: ./{output_file}")
-        print("\nNota: Certifique-se de definir as variáveis de ambiente:")
-        print("  export F5_HOST=<ip_do_f5>")
-        print("  export F5_USER=<usuario>")
-        print("  export F5_PASS=<senha>")
-        
     except Exception as e:
         print(f"Erro ao escrever arquivo de saída: {e}")
+
+    try:
+        with open(output_readme,'w', encoding='utf-8') as f:
+            readme = f"""## Script shell gerado com sucesso:
+            
+{output_file}
+
+---
+
+Para executar:
+
+```bash
+$ chmod +x ./{output_file}"
+$ ./{output_file}
+```
+Nota: Certifique-se de definir as variáveis de ambiente:"
+
+```bash
+export F5_HOST=<ip_do_f5>"
+export F5_USER=<usuario>"
+export F5_PASS=<senha>"
+```    
+            """    
+            f.write(readme)
+    except Exception as e:
+        print(f"Erro ao escrever o README.md: {e}")            
 
 if __name__ == "__main__":
     main()
